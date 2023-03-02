@@ -2,6 +2,8 @@
 import cart from './images/cart.svg'
 import heart from './images/heart.svg'
 import userIcon from './images/user-icon.svg'
+import logo from './images/logo.svg'
+
 
 const Header = () => {
     return ( 
@@ -9,7 +11,7 @@ const Header = () => {
         <div className='container'>
         <div className='flex justify-between gap-[20px]'>
         <div className='left flex gap-[16px]'>
-          <img className='max-w-[40px]' src="./images/logo.svg" alt="logo" />
+          <img className='max-w-[40px]' src={logo} alt="logo" />
           <div>
             <h3 className='font-[700] text-[20px]'>
             REACT SNEAKERS

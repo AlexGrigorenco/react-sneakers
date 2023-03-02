@@ -1,4 +1,6 @@
 
+
+import './style.css'
 import heart from "./images/heart.svg"
 import plus from "./images/plus.svg"
 

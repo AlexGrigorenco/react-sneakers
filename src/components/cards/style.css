@@ -1,0 +1,13 @@
+
+
+
+
+main .content .cards .card{
+    transition: 0.2s linear;
+}
+main .cards .card:hover{
+    box-shadow: 0px 20px 35px rgba(0, 0, 0, 0.04);
+    transform: translateY(-5px);
+    transition: 0.3s linear;
+}
+  
