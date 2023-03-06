@@ -20,7 +20,7 @@ const Content = () => {
                 </div>
 
                 <div className="cards pt-[30px] flex gap-[30px] flex-wrap">
-                        {data.map(item => <Card key={item.id} img={item.img} text={item.text} price={item.price} />)}
+                        {data.map(item => <Card key={item.id} id={item.id} img={item.img} title={item.title} price={item.price} />)}
                 </div>
             </div>
         </main>

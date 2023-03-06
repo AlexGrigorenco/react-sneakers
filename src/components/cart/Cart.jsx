@@ -23,7 +23,7 @@ const Cart = () => {
                                 <img src={data[0].img} alt="sneakers" />
                             </div>
                             <div className='flex flex-col gap-[8px] '>
-                                <p className='text-[14px]'>{data[0].text}</p>
+                                <p className='text-[14px]'>{data[0].title}</p>
                                 <p className='font-[700] text-[14px] '>{data[0].price} руб.</p>
                             </div>
                             <div>
@@ -38,7 +38,7 @@ const Cart = () => {
                                 <img src={data[1].img} alt="sneakers" />
                             </div>
                             <div className='flex flex-col gap-[8px] '>
-                                <p className='text-[14px]'>{data[1].text}</p>
+                                <p className='text-[14px]'>{data[1].title}</p>
                                 <p className='font-[700] text-[14px] '>{data[1].price} руб.</p>
                             </div>
                             <div>
