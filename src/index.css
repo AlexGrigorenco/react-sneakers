@@ -17,7 +17,9 @@ body {
   font-family: 'Inter';
 }
 
-input{
+input,
+input::-moz-focus-inner,
+input::-moz-focus-outer{
   outline: none;
 }
 
