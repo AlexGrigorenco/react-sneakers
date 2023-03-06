@@ -17,10 +17,12 @@ body {
   font-family: 'Inter';
 }
 
-input,
+input{
+  outline: 0 !important;
+}
 input::-moz-focus-inner,
 input::-moz-focus-outer{
-  outline: none;
+  border: 0;
 }
 
 .container{
