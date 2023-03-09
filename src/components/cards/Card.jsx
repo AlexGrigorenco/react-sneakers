@@ -8,11 +8,14 @@ import plus from "./images/plus.svg"
 import check from "./images/check.svg"
 
 
-const Card = ({img, title, price, id, onPlus, onFavorite}) => {
+const Card = ({img, title, price, id, onFavorite, addToCart}) => {
 
     const [added, setAdded] = useState(false);
-
-    const onClickPlus = () => setAdded(!added)
+    
+    const onClickPlus = () => {
+        setAdded(!added)
+        addToCart({id: id, img: img, title: title, price: price})
+    }
     
     return ( 
         <div className='card w-[220px] rounded-[40px] border border-[#F3F3F3] p-[30px] flex flex-col gap-[10px]'>

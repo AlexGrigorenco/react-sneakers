@@ -1,16 +1,29 @@
 
+
+
 import './style.css'
-import data from '../cards/SneakersData.js'
 import removeImg from './images/remove.svg'
+import {FetchProducts} from '../../hoocs/FetchPriducts'
 import arrow from './images/arrow.svg'
+import Loader from '../loader/Loader'
+import Card from './Card'
 
 
 
-const Cart = ({onClose}) => {
+const Cart = ({onClose, data}) => {
+
+    const {loading} = FetchProducts()
+    
+    
+
     return ( 
-        <div className="wrapper absolute z-50 top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh]">
+        <div 
+        onClick={onClose}
+        className="wrapper fixed z-50 top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh]">
 
-            <div className="absolute py-[32px] px-[30px] max-w-[400px] bg-[#fff] h-[100vh] right-0 flex flex-col gap-[30px] ">
+            <div 
+            onClick={(e) => e.stopPropagation()}
+            className="absolute py-[32px] px-[30px] max-w-[400px] bg-[#fff] h-[100vh] right-0 flex flex-col gap-[30px] ">
 
                 <div className='flex items-center justify-between'>
                     <h2 className="font-[700] text-[24px] ">Корзина</h2>
@@ -27,37 +40,9 @@ const Cart = ({onClose}) => {
 
                     <div className=' flex flex-col gap-[20px] overflow-auto '>
 
-                        <div className='flex items-center gap-[20px] border border-[#F3F3F3] rounded-[20px] py-[30px] px-[20px] '>
-                            <div className='max-w-[70px]'>
-                                <img src={data[0].img} alt="sneakers" />
-                            </div>
-                            <div className='flex flex-col gap-[8px] '>
-                                <p className='text-[14px]'>{data[0].title}</p>
-                                <p className='font-[700] text-[14px] '>{data[0].price} руб.</p>
-                            </div>
-                            <div>
-                                <div  className='opacity-[0.5] hover:opacity-[1] w-[32px] h-[32px] rounded-[8px] border border-[#DBDBDB] flex items-center justify-center cursor-pointer '>
-                                    <img src={removeImg} alt="remove" />
-                                </div>
-                            </div>
-                        </div>
+                        {loading && <Loader />}
 
-                        <div className='flex items-center gap-[20px] border border-[#F3F3F3] rounded-[20px] py-[30px] px-[20px] '>
-                            <div className='max-w-[70px]'>
-                                <img src={data[1].img} alt="sneakers" />
-                            </div>
-                            <div className='flex flex-col gap-[8px] '>
-                                <p className='text-[14px]'>{data[1].title}</p>
-                                <p className='font-[700] text-[14px] '>{data[1].price} руб.</p>
-                            </div>
-                            <div>
-                                <div  className='opacity-[0.5] hover:opacity-[1] w-[32px] h-[32px] rounded-[8px] border border-[#DBDBDB] flex items-center justify-center cursor-pointer '>
-                                    <img src={removeImg} alt="remove" />
-                                </div>
-                            </div>
-                        </div> 
-                        
-
+                        {data.map(item => <Card key={item.id} id={item.id} img={item.img} title={item.title} price={item.price} />)}
                     </div>
 
                     <div className='flex flex-col gap-[20px]'>
