@@ -1,15 +1,41 @@
 
 
+import { useState, useEffect } from "react";
 import Card from "../cards/Card";
-import data from '../cards/SneakersData'
 import loupe from './images/loupe.svg'
+import axios from "axios";
+
+const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/'
 
 
 const Content = () => {
+
+    const [data, setData] = useState([])
+
+    const getProduct = async () => {
+        
+        try{
+            const res = await axios.get(url)
+            return res.data
+        }catch(e){
+            console.error(e)
+        }
+    }
+
+    useEffect(() => {
+        getProduct().then(res => {
+            setData(res.data)
+            console.log(res.data)
+        }).catch(e => {
+            console.error(e)
+        })
+
+    },[])
+
     return ( 
         <main className="py-[42px]">
             <div className="container">
-                <div className="flex justify-between gap-[10px]">
+                <div className="flex justify-between gap-[10px] flex-wrap ">
                 <h1 className="font-[700] text-[32px]">
                 Все кроссовки
                 </h1>
@@ -20,7 +46,14 @@ const Content = () => {
                 </div>
 
                 <div className="cards pt-[30px] flex gap-[30px] flex-wrap">
-                        {data.map(item => <Card key={item.id} id={item.id} img={item.img} title={item.title} price={item.price} />)}
+                        {data.map(item => <Card 
+                        onPlus={() => console.log('plus', item.id)}
+                        onFavorite={() => console.log('favorite', item.id)}
+                        key={item.id} 
+                        id={item.id} 
+                        img={item.img} 
+                        title={item.title} 
+                        price={item.price} />)}
                 </div>
             </div>
         </main>

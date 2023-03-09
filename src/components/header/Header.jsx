@@ -5,11 +5,12 @@ import userIcon from './images/user-icon.svg'
 import logo from './images/logo.svg'
 
 
-const Header = () => {
+const Header = ({openCart}) => {
     return ( 
         <header className='py-[42px]'>
         <div className='container'>
-        <div className='flex justify-between gap-[20px]'>
+        <div className='flex justify-between gap-[20px] flex-wrap '>
+
         <div className='left flex gap-[16px]'>
           <img className='max-w-[40px]' src={logo} alt="logo" />
           <div>
@@ -23,12 +24,16 @@ const Header = () => {
         </div>
 
         <div className='right flex items-center gap-[30px]'>
-          <div className='flex gap-[10px]'>
-            <img className='max-w-[18px]' src={cart} alt="cart" />
-            <span className='text-[#5C5C5C]'>
-            1205 руб.
-            </span>
+
+          <div 
+          onClick={openCart}
+          className='flex gap-[10px] cursor-pointer '>
+              <img className='max-w-[18px]' src={cart} alt="cart" />            
+              <span className='text-[#5C5C5C] hover:text-[#000]'>
+              1205 руб.
+              </span>
           </div>
+
           <div className='flex gap-[28px]'>
             <img className='max-w-[18px]' src={heart} alt="heart" />
             <img className='max-w-[18px]' src={userIcon} alt="userIcon" />

@@ -6,13 +6,22 @@ import arrow from './images/arrow.svg'
 
 
 
-const Cart = () => {
+const Cart = ({onClose}) => {
     return ( 
         <div className="wrapper absolute z-50 top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh]">
 
             <div className="absolute py-[32px] px-[30px] max-w-[400px] bg-[#fff] h-[100vh] right-0 flex flex-col gap-[30px] ">
 
-                <h2 className="font-[700] text-[24px] ">Корзина</h2>
+                <div className='flex items-center justify-between'>
+                    <h2 className="font-[700] text-[24px] ">Корзина</h2>
+                    <div>
+                        <div  
+                        onClick={onClose}
+                        className='opacity-[0.5] hover:opacity-[1] w-[32px] h-[32px] rounded-[8px] border border-[#DBDBDB] flex items-center justify-center cursor-pointer '>
+                            <img src={removeImg} alt="remove" />
+                        </div>
+                    </div>
+                </div>
 
                 <div className='cart-data flex flex-col gap-[20px] max-h-[94%] justify-between grow'>
 

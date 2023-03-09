@@ -1,19 +1,26 @@
 
 
+
+import { useState } from 'react'
 import './style.css'
 import heart from "./images/heart.svg"
 import plus from "./images/plus.svg"
+import check from "./images/check.svg"
 
 
-const Card = ({img, title, price, id}) => {
+const Card = ({img, title, price, id, onPlus, onFavorite}) => {
+
+    const [added, setAdded] = useState(false);
+
+    const onClickPlus = () => setAdded(!added)
     
     return ( 
         <div className='card w-[220px] rounded-[40px] border border-[#F3F3F3] p-[30px] flex flex-col gap-[10px]'>
 
             <div className="relative">
-                <div className="absolute  top-[0] left-[0] border p-[6px] rounded-[4px] cursor-pointer">
+                <button onClick={onFavorite}  className="absolute  top-[0] left-[0] border p-[6px] rounded-[4px] cursor-pointer">
                     <img src={heart} alt="heart" />
-                </div>
+                </button>
             <img className='w-[133px] h-[112px]' src={img} alt="sneakers" />
             </div>
 
@@ -25,8 +32,13 @@ const Card = ({img, title, price, id}) => {
                     <p className="font-[700] text-[14px]">{price} руб.</p>
                 </div>
                 <div>
-                    <button onClick={() => alert(id)} className="border p-[8px] rounded-[4px] cursor-pointer">
-                            <img src={plus} alt="plus" />
+                    <button 
+                    style={added ? {background: 'linear-gradient(180deg, #89F09C 0%, #3CC755 100%)'} : null} 
+                    onClick={onClickPlus} 
+                    className="border p-[8px] rounded-[4px] cursor-pointer">
+
+                            {added ? <img src={check} alt="check" /> : <img src={plus} alt="plus" />}
+
                     </button>
                 </div>
             </div>
