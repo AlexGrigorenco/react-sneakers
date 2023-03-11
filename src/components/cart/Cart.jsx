@@ -1,18 +1,46 @@
 
 
-
+import { useState, useEffect } from 'react'
 import './style.css'
 import removeImg from './images/remove.svg'
-import {FetchProducts} from '../../hoocs/FetchPriducts'
 import arrow from './images/arrow.svg'
-import Loader from '../loader/Loader'
-import Card from './Card'
+//import Card from './Card'
+import axios from 'axios'
+
+const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart';
 
 
 
-const Cart = ({onClose, data}) => {
+const Cart = ({onClose}) => {
 
-    const {loading} = FetchProducts()
+    const [products, setProducts] = useState([]);
+    
+    const getProduct = async () => {        
+        try{
+            const res = await axios.get(`${url}/.json`)
+            console.log(res.data)
+            return res.data
+        }catch(e){
+            console.error(e)
+        }
+    }
+
+    useEffect(() => {
+        getProduct().then(res => {
+            if (res.data) {
+                setProducts(Object.values(res));
+            } else {
+                setProducts([[]]);
+            }
+
+            console.log(res)
+            console.log(products)
+            // eslint-disable-next-line 
+        }).catch(e => {
+            console.error(e)
+        })
+        // eslint-disable-next-line 
+    },[])
     
     
 
@@ -40,9 +68,7 @@ const Cart = ({onClose, data}) => {
 
                     <div className=' flex flex-col gap-[20px] overflow-auto '>
 
-                        {loading && <Loader />}
-
-                        {data.map(item => <Card key={item.id} id={item.id} img={item.img} title={item.title} price={item.price} />)}
+                         {/* {data && data.map(item => <Card key={item.id} id={item.id} img={item.img} title={item.title} price={item.price} />)} */}
                     </div>
 
                     <div className='flex flex-col gap-[20px]'>

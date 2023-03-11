@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/';
+const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/products';
 
 export const FetchProducts = () => {
 

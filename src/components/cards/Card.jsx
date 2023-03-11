@@ -6,6 +6,7 @@ import './style.css'
 import heart from "./images/heart.svg"
 import plus from "./images/plus.svg"
 import check from "./images/check.svg"
+import axios from 'axios'
 
 
 const Card = ({img, title, price, id, onFavorite, addToCart}) => {
@@ -15,6 +16,9 @@ const Card = ({img, title, price, id, onFavorite, addToCart}) => {
     const onClickPlus = () => {
         setAdded(!added)
         addToCart({id: id, img: img, title: title, price: price})
+        
+
+        !added ? axios.post(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id}.json`, JSON.stringify({id: id, img: img, title: title, price: price})) : axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id}.json`)
     }
     
     return ( 

@@ -17,7 +17,7 @@ const Content = ({toggleCartProduct}) => {
 
     function handleChildData(data) {
         const isDuplicate = cartData.some(item => item.id === data.id)         
-        isDuplicate ? setCartData(cartData.filter(item => item.id !== data.id)) : setCartData(prev => [...prev, data])        
+        isDuplicate ? setCartData(cartData.filter(item => item.id !== data.id)) : setCartData(prev => [...prev, data])       
       }
 
       const memoizedToggleCartProduct = useCallback(toggleCartProduct, [toggleCartProduct])
