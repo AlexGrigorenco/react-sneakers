@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import './style.css'
 import removeImg from './images/remove.svg'
 import arrow from './images/arrow.svg'
-//import Card from './Card'
+import Card from './Card'
 import axios from 'axios'
 
 const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart';
@@ -14,35 +14,37 @@ const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.a
 const Cart = ({onClose}) => {
 
     const [products, setProducts] = useState([]);
+    const [cartEmpty, setCartEmpty] = useState(false)
     
-    const getProduct = async () => {        
+    const fetchProducts = async () => {        
         try{
             const res = await axios.get(`${url}/.json`)
-            console.log(res.data)
-            return res.data
+            return res
+            
         }catch(e){
             console.error(e)
         }
     }
+    const getProducts = () => {
+        fetchProducts().then(res => {
+
+            const arr = res.data && Object.values(res.data).filter(item => item !== null).map(item => item[Object.keys(item)[0]])
+
+            !arr && setCartEmpty(true)
+            
+            setProducts(arr || [])
+        // eslint-disable-next-line 
+    }).catch(e => {
+        console.error(e)
+    }) 
+    }
 
     useEffect(() => {
-        getProduct().then(res => {
-            if (res.data) {
-                setProducts(Object.values(res));
-            } else {
-                setProducts([[]]);
-            }
-
-            console.log(res)
-            console.log(products)
-            // eslint-disable-next-line 
-        }).catch(e => {
-            console.error(e)
-        })
+        getProducts()
         // eslint-disable-next-line 
-    },[])
+    },[cartEmpty])
     
-    
+    console.log(products)
 
     return ( 
         <div 
@@ -68,7 +70,8 @@ const Cart = ({onClose}) => {
 
                     <div className=' flex flex-col gap-[20px] overflow-auto '>
 
-                         {/* {data && data.map(item => <Card key={item.id} id={item.id} img={item.img} title={item.title} price={item.price} />)} */}
+                         {products && products.map(item => <Card key={item.id} id={item.id} img={item.img} title={item.title} price={item.price} />)}
+                         {cartEmpty && <div>Empty</div>}
                     </div>
 
                     <div className='flex flex-col gap-[20px]'>

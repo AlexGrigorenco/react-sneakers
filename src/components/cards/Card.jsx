@@ -9,16 +9,14 @@ import check from "./images/check.svg"
 import axios from 'axios'
 
 
-const Card = ({img, title, price, id, onFavorite, addToCart}) => {
+const Card = ({img, title, price, id, onFavorite}) => {
 
     const [added, setAdded] = useState(false);
     
     const onClickPlus = () => {
-        setAdded(!added)
-        addToCart({id: id, img: img, title: title, price: price})
-        
+        setAdded(!added)        
 
-        !added ? axios.post(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id}.json`, JSON.stringify({id: id, img: img, title: title, price: price})) : axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id}.json`)
+        !added ? axios.post(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id - 1}.json`, JSON.stringify({id: id, img: img, title: title, price: price})) : axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id - 1}.json`)
     }
     
     return ( 

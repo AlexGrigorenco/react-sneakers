@@ -1,35 +1,16 @@
 
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import Card from "../cards/Card";
 import loupe from './images/loupe.svg'
 import remove from './images/remove.svg'
 import { FetchProducts } from "../../hoocs/FetchPriducts";
 import Loader from "../loader/Loader";
 
-const Content = ({toggleCartProduct}) => {
+const Content = () => {
 
     const {data, loading} = FetchProducts()
-    const [cartData, setCartData] = useState([])
     const [searchValue, setSearchValue] = useState('')
-
-
-
-    function handleChildData(data) {
-        const isDuplicate = cartData.some(item => item.id === data.id)         
-        isDuplicate ? setCartData(cartData.filter(item => item.id !== data.id)) : setCartData(prev => [...prev, data])       
-      }
-
-      const memoizedToggleCartProduct = useCallback(toggleCartProduct, [toggleCartProduct])
-
-      useEffect(() => {
-
-        toggleCartProduct(cartData)
-        // eslint-disable-next-line
-      }, [cartData, memoizedToggleCartProduct]);
-
-
-
       const onChangeSearchInput = (event) => {
 
         setSearchValue(event.target.value)
@@ -64,7 +45,6 @@ const Content = ({toggleCartProduct}) => {
                          {data
                          .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
                          .map(item => <Card 
-                         addToCart = {handleChildData}
                          onFavorite={() => console.log('favorite', item.id)}
                          key={item.id} 
                          id={item.id} 
