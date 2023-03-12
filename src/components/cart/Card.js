@@ -4,10 +4,13 @@ import axios from 'axios';
 import removeImg from './images/remove.svg'
 
 
-const Card = ({img, title, price, id}) => {
+const Card = ({img, title, price, id, getProducts}) => {
 
     const removeCartProduct = () => {
-        axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id - 1}.json`)
+        axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id - 1}.json`).then(() => {
+            getProducts()
+        })
+        
     }
 
     return ( 

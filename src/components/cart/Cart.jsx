@@ -1,50 +1,20 @@
 
 
-import { useState, useEffect } from 'react'
+
 import './style.css'
 import removeImg from './images/remove.svg'
 import arrow from './images/arrow.svg'
 import Card from './Card'
-import axios from 'axios'
-
-const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart';
-
+import CartEmpty from './CartEmpty'
+import { FetchCartProducts } from '../../hoocs/FetchCartProducts'
 
 
-const Cart = ({onClose}) => {
 
-    const [products, setProducts] = useState([]);
-    const [cartEmpty, setCartEmpty] = useState(false)
-    
-    const fetchProducts = async () => {        
-        try{
-            const res = await axios.get(`${url}/.json`)
-            return res
-            
-        }catch(e){
-            console.error(e)
-        }
-    }
-    const getProducts = () => {
-        fetchProducts().then(res => {
 
-            const arr = res.data && Object.values(res.data).filter(item => item !== null).map(item => item[Object.keys(item)[0]])
 
-            !arr && setCartEmpty(true)
-            
-            setProducts(arr || [])
-        // eslint-disable-next-line 
-    }).catch(e => {
-        console.error(e)
-    }) 
-    }
+const Cart = ({onClose}) => {   
 
-    useEffect(() => {
-        getProducts()
-        // eslint-disable-next-line 
-    },[cartEmpty])
-    
-    console.log(products)
+    const {products, cartEmpty, getProducts} = FetchCartProducts()
 
     return ( 
         <div 
@@ -53,7 +23,7 @@ const Cart = ({onClose}) => {
 
             <div 
             onClick={(e) => e.stopPropagation()}
-            className="absolute py-[32px] px-[30px] max-w-[400px] bg-[#fff] h-[100vh] right-0 flex flex-col gap-[30px] ">
+            className="absolute py-[32px] px-[30px] max-w-[400px] min-w-[320px] bg-[#fff] h-[100vh] right-0 flex flex-col gap-[30px] ">
 
                 <div className='flex items-center justify-between'>
                     <h2 className="font-[700] text-[24px] ">Корзина</h2>
@@ -66,15 +36,25 @@ const Cart = ({onClose}) => {
                     </div>
                 </div>
 
-                <div className='cart-data flex flex-col gap-[20px] max-h-[94%] justify-between grow'>
+                 <div className='cart-data flex flex-col gap-[20px] max-h-[94%] justify-between grow'>
 
-                    <div className=' flex flex-col gap-[20px] overflow-auto '>
+                    <div className=' flex flex-col gap-[20px] overflow-auto grow'>
 
-                         {products && products.map(item => <Card key={item.id} id={item.id} img={item.img} title={item.title} price={item.price} />)}
-                         {cartEmpty && <div>Empty</div>}
-                    </div>
+                         {products && products.map(item => 
+                         <Card 
+                         getProducts={getProducts}
+                         key={item.id} 
+                         id={item.id} 
+                         img={item.img} 
+                         title={item.title} 
+                         price={item.price} 
+                         />)}
 
-                    <div className='flex flex-col gap-[20px]'>
+                        {cartEmpty && <CartEmpty onClose={onClose} />}
+                         
+                    </div>                   
+
+                    {!cartEmpty && <div className='flex flex-col gap-[20px]'>
                         <div className='flex items-center justify-between border-bottom-dashed'>
                             <span className='text-[16px] bg-[#fff] pr-[8px] translate-y-[4px] '>
                             Итого: 
@@ -99,7 +79,7 @@ const Cart = ({onClose}) => {
                         </button>
                         </div>
                         
-                    </div>
+                    </div>}
 
                 </div>
 
