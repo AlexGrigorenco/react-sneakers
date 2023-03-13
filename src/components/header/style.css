@@ -1,0 +1,14 @@
+
+
+
+.favorites svg{
+    fill: #fff;
+    stroke: #9B9B9B;
+    transition: 0.3s linear;
+}
+
+.favorites.active svg{
+    fill: #FF8585;
+    stroke: #FF8585;
+    transition: 0.3s linear;
+}

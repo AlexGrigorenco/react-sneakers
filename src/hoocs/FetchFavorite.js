@@ -1,17 +1,20 @@
 
 
 
+
+
+
 import { useEffect, useState } from "react";
 import axios from 'axios'
 
-const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart';
+const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/favorites';
 
 
-    export const FetchCartProducts = () => {
+    export const FetchFavorite = () => {
 
         const [products, setProducts] = useState([]);
-        const [cartEmpty, setCartEmpty] = useState(false);
-        const [arrCart, setArrCart] = useState([])
+        const [favoriteEmpty, setFavoriteEmpty] = useState(false);
+        const [arrFavorite, setArrFavorite] = useState([])
         
         const fetchProducts = async () => {
             try{
@@ -19,19 +22,18 @@ const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.a
                 return res
                 
             }catch(e){
-                console.error(e)
+                alert(e, 'error')
             }
         }
     
-        const getProducts = () => {
+        const getFavoriteProducts = () => {
             fetchProducts().then(res => {
-    
                 const arr = res.data && Object.values(res.data).filter(item => item !== null).map(item => item[Object.keys(item)[0]])
-    
-                !arr && setCartEmpty(true)
+                
+                !arr && setFavoriteEmpty(true)
                 
                 setProducts(arr || [])
-                arr && setArrCart(arr.map(item => item.id) || [])
+                arr && setArrFavorite(arr.map(item => item.id) || [])
                 // eslint-disable-next-line 
             
         }).catch(e => {
@@ -40,9 +42,9 @@ const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.a
         }
     
         useEffect(() => {
-            getProducts()
+            getFavoriteProducts()
             // eslint-disable-next-line 
         }, [])
 
-        return {products, cartEmpty, getProducts, arrCart}
+        return {products, favoriteEmpty, getFavoriteProducts, arrFavorite}
     }

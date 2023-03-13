@@ -6,7 +6,7 @@ import arrow from './images/arrow.svg'
 
 const CartEmpty = ({onClose}) => {
     return ( 
-        <div className='min-h-[100%] flex flex-col justify-center gap-[10px] items-center grow '>
+        <div className='h-[100%] flex flex-col justify-center gap-[10px] items-center grow '>
         <div className='pb-[30px]'>
             <img src={boxEmpty} alt="boxEmpty" />
         </div>

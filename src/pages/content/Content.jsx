@@ -1,18 +1,21 @@
 
 
 import { useState } from "react";
-import Card from "../cards/Card";
+import Card from "../../components/cards/Card";
 import loupe from './images/loupe.svg'
 import remove from './images/remove.svg'
 import { FetchProducts } from "../../hoocs/FetchPriducts";
-import Loader from "../loader/Loader";
+import Loader from "../../components/loader/Loader";
 import { FetchCartProducts } from '../../hoocs/FetchCartProducts'
+import { FetchFavorite } from "../../hoocs/FetchFavorite";
 
 const Content = () => {
 
     const {data, loading} = FetchProducts()
 
-    const {arrId} = FetchCartProducts()
+    const {arrCart} = FetchCartProducts()
+
+    const {arrFavorite} = FetchFavorite()
     
 
     const [searchValue, setSearchValue] = useState('')
@@ -49,8 +52,8 @@ const Content = () => {
                          {data
                          .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
                          .map(item => <Card 
-                         arrId={arrId}
-                         onFavorite={() => console.log('favorite', item.id)}
+                         arrFavorite={arrFavorite}
+                         arrCart={arrCart}
                          key={item.id} 
                          id={item.id} 
                          img={item.img} 
