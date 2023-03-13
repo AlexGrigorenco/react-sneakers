@@ -1,21 +1,30 @@
 
 
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import './style.css'
 import heart from "./images/heart.svg"
 import plus from "./images/plus.svg"
 import check from "./images/check.svg"
-import axios from 'axios'
 
 
-const Card = ({img, title, price, id, onFavorite}) => {
+
+const Card = ({img, title, price, id, onFavorite, arrId}) => {
 
     const [added, setAdded] = useState(false);
+
+    useEffect(() => {
+        arrId.forEach(item => {
+            if(item === id){
+                setAdded(!added)
+            }
+        })
+        // eslint-disable-next-line
+    },[])    
     
     const onClickPlus = () => {
-        setAdded(!added)        
-
+        setAdded(!added)
         !added ? axios.post(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id - 1}.json`, JSON.stringify({id: id, img: img, title: title, price: price})) : axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id - 1}.json`)
     }
     

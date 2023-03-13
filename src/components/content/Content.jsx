@@ -6,13 +6,17 @@ import loupe from './images/loupe.svg'
 import remove from './images/remove.svg'
 import { FetchProducts } from "../../hoocs/FetchPriducts";
 import Loader from "../loader/Loader";
+import { FetchCartProducts } from '../../hoocs/FetchCartProducts'
 
 const Content = () => {
 
     const {data, loading} = FetchProducts()
+
+    const {arrId} = FetchCartProducts()
+    
+
     const [searchValue, setSearchValue] = useState('')
       const onChangeSearchInput = (event) => {
-
         setSearchValue(event.target.value)
       }
 
@@ -45,6 +49,7 @@ const Content = () => {
                          {data
                          .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
                          .map(item => <Card 
+                         arrId={arrId}
                          onFavorite={() => console.log('favorite', item.id)}
                          key={item.id} 
                          id={item.id} 

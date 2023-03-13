@@ -30,5 +30,5 @@ export const FetchProducts = () => {
 
     },[])
 
-    return {data, loading}
+    return {data, loading, getProduct}
 };

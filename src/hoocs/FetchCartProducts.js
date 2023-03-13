@@ -11,6 +11,7 @@ const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.a
 
         const [products, setProducts] = useState([]);
         const [cartEmpty, setCartEmpty] = useState(false);
+        const [arrId, setArrId] = useState([])
         
         const fetchProducts = async () => {
             try{
@@ -30,6 +31,7 @@ const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.a
                 !arr && setCartEmpty(true)
                 
                 setProducts(arr || [])
+                arr && setArrId(arr.map(item => item.id) || [])
                 // eslint-disable-next-line 
             
         }).catch(e => {
@@ -42,5 +44,5 @@ const url = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.a
             // eslint-disable-next-line 
         }, [])
 
-        return {products, cartEmpty, getProducts}
+        return {products, cartEmpty, getProducts, arrId}
     }

@@ -15,7 +15,6 @@ import { FetchCartProducts } from '../../hoocs/FetchCartProducts'
 const Cart = ({onClose}) => {   
 
     const {products, cartEmpty, getProducts} = FetchCartProducts()
-
     return ( 
         <div 
         onClick={onClose}
