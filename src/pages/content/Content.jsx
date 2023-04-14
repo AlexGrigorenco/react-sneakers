@@ -1,11 +1,11 @@
 
 
 import { useState } from "react";
+import ContentLoader from "react-content-loader";
 import Card from "../../components/cards/Card";
 import loupe from './images/loupe.svg'
 import remove from './images/remove.svg'
 import { FetchProducts } from "../../hoocs/FetchPriducts";
-import Loader from "../../components/loader/Loader";
 import { FetchCartProducts } from '../../hoocs/FetchCartProducts'
 import { FetchFavorite } from "../../hoocs/FetchFavorite";
 
@@ -15,8 +15,7 @@ const Content = () => {
 
     const {arrCart} = FetchCartProducts()
 
-    const {arrFavorite} = FetchFavorite()
-    
+    const {arrFavorite, getFavoriteProducts} = FetchFavorite()    
 
     const [searchValue, setSearchValue] = useState('')
       const onChangeSearchInput = (event) => {
@@ -46,20 +45,36 @@ const Content = () => {
                  </div>
                  </div>
 
-                 {loading && <Loader />}
+                  <div className="cards pt-[30px] flex gap-[30px] flex-wrap">
+                                            {loading && [...Array(12)].map((item, i) => <ContentLoader 
+                                                className='card w-[220px] rounded-[40px] border border-[#F3F3F3] p-[30px] flex flex-col gap-[10px]'
+                                                key={i}
+                                                speed={1}
+                                                width={240}
+                                                height={260}
+                                                viewBox="0 0 210 260"
+                                                backgroundColor="#f6f5f4"
+                                                foregroundColor="#A9E2F3"
+                                              >
+                                                <rect x="0" y="0" rx="4" ry="4" width="220" height="110" /> 
+                                                <rect x="0" y="120" rx="4" ry="4" width="220" height="30" /> 
+                                                <rect x="0" y="156" rx="4" ry="4" width="93" height="30" /> 
+                                                <rect x="0" y="200" rx="10" ry="10" width="80" height="40" /> 
+                                                <rect x="150" y="180" rx="10" ry="10" width="60" height="60" />
+                                              </ContentLoader>)}
 
-                 {data && <div className="cards pt-[30px] flex gap-[30px] flex-wrap">
-                         {data
-                         .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-                         .map(item => <Card 
-                         arrFavorite={arrFavorite}
-                         arrCart={arrCart}
-                         key={item.id} 
-                         id={item.id} 
-                         img={item.img} 
-                         title={item.title} 
-                         price={item.price} />)}
-                 </div>}
+                                          {data && data
+                                              .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
+                                              .map(item => <Card 
+                                              arrFavorite={arrFavorite}
+                                              getFavoriteProducts={getFavoriteProducts}
+                                              arrCart={arrCart}
+                                              key={item.id} 
+                                              id={item.id} 
+                                              img={item.img} 
+                                              title={item.title} 
+                                              price={item.price} />)}
+                 </div>
             </div>
          </main>
      );

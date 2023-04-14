@@ -7,9 +7,13 @@ import removeImg from './images/remove.svg'
 const Card = ({img, title, price, id, getProducts}) => {
 
     const removeCartProduct = () => {
-        axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id - 1}.json`).then(() => {
+        try{
+            axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id - 1}.json`).then(() => {
             getProducts()
         })
+        }catch{
+            alert('Не удалось удалить, обновите страницу и попробуйте ещё раз!')
+        }
         
     }
 

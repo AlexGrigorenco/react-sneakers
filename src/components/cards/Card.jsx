@@ -34,21 +34,32 @@ const Card = ({img, title, price, id, arrCart, arrFavorite, getFavoriteProducts}
     
     const onClickPlus = () => {
         setAdded(!added)
-        !added ? axios.post(`${url}/cart/${id - 1}.json`, JSON.stringify(obj)) 
-                : axios.delete(`${url}/cart/${id - 1}.json`)
+        try {
+            if (!added) {
+                axios.post(`${url}/cart/${id - 1}.json`, JSON.stringify(obj))
+            } else {
+                axios.delete(`${url}/cart/${id - 1}.json`)
+            }
+        } catch (error) {
+            alert('Обновите страницу и попробуйте ещё раз!')
+        }
     }
+    
     const onFavorite = () => {
         setFavorite(!favorite)
-        !favorite ? axios.post(`${url}/favorites/${id - 1}.json`, JSON.stringify(obj))
+        try{
+            !favorite ? axios.post(`${url}/favorites/${id - 1}.json`, JSON.stringify(obj))
                     : axios.delete(`${url}/favorites/${id - 1}.json`).then(() => {
                         getFavoriteProducts()
                     })
+        }catch{
+            alert('Обновите страницу и попробуйте ещё раз!')
+        }
     }
     
     return ( 
         <div className='card w-[220px] rounded-[40px] border border-[#F3F3F3] p-[30px] flex flex-col gap-[10px]'>
-
-            <div className="relative">
+              <div className="relative">
                 <button 
                 style={favorite ? {background: '#FEF0F0'} : null} 
                 onClick={onFavorite}  
@@ -76,7 +87,6 @@ const Card = ({img, title, price, id, arrCart, arrFavorite, getFavoriteProducts}
                     </button>
                 </div>
             </div>
-            
         </div>
      );
 }
