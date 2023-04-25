@@ -5,17 +5,14 @@ import ContentLoader from "react-content-loader";
 import Card from "../../components/cards/Card";
 import loupe from './images/loupe.svg'
 import remove from './images/remove.svg'
-import { FetchProducts } from "../../hoocs/FetchPriducts";
-import { FetchCartProducts } from '../../hoocs/FetchCartProducts'
-import { FetchFavorite } from "../../hoocs/FetchFavorite";
+import { GetProducts } from "../../hoocs/GetProducts";
 
 const Content = () => {
 
-    const {data, loading} = FetchProducts()
-
-    const {arrCart} = FetchCartProducts()
-
-    const {arrFavorite, getFavoriteProducts} = FetchFavorite()    
+    const {products, loading, cartProducts, favoriteProducts} = GetProducts()
+    console.log(products)
+    console.log(cartProducts)  
+    console.log(favoriteProducts)
 
     const [searchValue, setSearchValue] = useState('')
       const onChangeSearchInput = (event) => {
@@ -63,12 +60,11 @@ const Content = () => {
                                                 <rect x="150" y="180" rx="10" ry="10" width="60" height="60" />
                                               </ContentLoader>)}
 
-                                          {data && data
+                                          {products && products
                                               .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
                                               .map(item => <Card 
-                                              arrFavorite={arrFavorite}
-                                              getFavoriteProducts={getFavoriteProducts}
-                                              arrCart={arrCart}
+                                              arrFavorite={favoriteProducts.map(item => item.id)}
+                                              arrCart={cartProducts.map(item => item.id)}
                                               key={item.id} 
                                               id={item.id} 
                                               img={item.img} 

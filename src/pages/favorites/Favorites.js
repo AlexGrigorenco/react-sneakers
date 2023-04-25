@@ -2,15 +2,13 @@
 
 import { NavLink } from 'react-router-dom';
 import arrowBack from './images/arrowBack.svg'
-import { FetchFavorite } from '../../hoocs/FetchFavorite';
 import Card from '../../components/cards/Card';
-import { FetchCartProducts } from '../../hoocs/FetchCartProducts';
 import FavoriteEmpty from './FavoriteEmpty';
+import {GetProducts} from '../../hoocs/GetProducts';
 
 const Favorites = () => {
 
-    const {products, favoriteEmpty, arrFavorite, getFavoriteProducts} = FetchFavorite()
-    const {arrCart} = FetchCartProducts()
+    const {favoriteEmpty, favoriteProducts, cartProducts, getFavoriteProducts} = GetProducts()
 
     return ( 
         <div className='py-[42px] min-h-[100vh] relative'>
@@ -25,10 +23,10 @@ const Favorites = () => {
                 </div>
             </div>
             <div className=' pt-[30px] flex gap-[30px] flex-wrap'>
-                {products && products.map(item => <Card 
+                {favoriteProducts && favoriteProducts.map(item => <Card
                 getFavoriteProducts={getFavoriteProducts}
-                arrFavorite={arrFavorite}
-                arrCart={arrCart}
+                arrFavorite={favoriteProducts.map(item => item.id)}
+                arrCart={cartProducts.map(item => item.id)}
                 key={item.id} 
                 id={item.id} 
                 img={item.img} 

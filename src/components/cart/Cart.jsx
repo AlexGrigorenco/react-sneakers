@@ -6,7 +6,7 @@ import removeImg from './images/remove.svg'
 import arrow from './images/arrow.svg'
 import Card from './Card'
 import CartEmpty from './CartEmpty'
-import { FetchCartProducts } from '../../hoocs/FetchCartProducts'
+import GetProducts from '../../hoocs/GetProducts'
 
 
 
@@ -14,7 +14,7 @@ import { FetchCartProducts } from '../../hoocs/FetchCartProducts'
 
 const Cart = ({onClose}) => {   
 
-    const {products, cartEmpty, getProducts} = FetchCartProducts()
+    const {cartProducts, cartEmpty, getCartProducts} = GetProducts()
     return ( 
         <div 
         onClick={onClose}
@@ -39,9 +39,9 @@ const Cart = ({onClose}) => {
 
                     <div className=' flex flex-col gap-[20px] overflow-auto grow'>
 
-                         {products && products.map(item => 
+                         {cartProducts && cartProducts.map(item => 
                          <Card 
-                         getProducts={getProducts}
+                         getCartProducts={getCartProducts}
                          key={item.id} 
                          id={item.id} 
                          img={item.img} 

@@ -49,9 +49,7 @@ const Card = ({img, title, price, id, arrCart, arrFavorite, getFavoriteProducts}
         setFavorite(!favorite)
         try{
             !favorite ? axios.post(`${url}/favorites/${id - 1}.json`, JSON.stringify(obj))
-                    : axios.delete(`${url}/favorites/${id - 1}.json`).then(() => {
-                        getFavoriteProducts()
-                    })
+                    : axios.delete(`${url}/favorites/${id - 1}.json`).then(() => getFavoriteProducts())
         }catch{
             alert('Обновите страницу и попробуйте ещё раз!')
         }
