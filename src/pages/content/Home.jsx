@@ -1,18 +1,31 @@
 
 
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import ContentLoader from "react-content-loader";
 import Card from "../../components/cards/Card";
 import loupe from './images/loupe.svg'
 import remove from './images/remove.svg'
-import { GetProducts } from "../../hoocs/GetProducts";
+import { FirebaseContext } from "../../context/firebaseContext";
 
 const Content = () => {
 
-    const {products, loading, cartProducts, favoriteProducts} = GetProducts()
-    console.log(products)
-    console.log(cartProducts)  
-    console.log(favoriteProducts)
+    const {products, loading, setLoading, getMainProducts, getFavoriteProducts, getCartProducts} = useContext(FirebaseContext)
+
+    useEffect(() => {
+      async function fetchData() {
+          try{
+              await getCartProducts()
+              await getFavoriteProducts()
+              await getMainProducts()              
+          }catch{
+              alert('Произошла ошибка! Попробуйте ещё раз или обновите страницу.')
+              setLoading(true)
+          }
+          
+      }
+      fetchData()
+      // eslint-disable-next-line
+  },[])
 
     const [searchValue, setSearchValue] = useState('')
       const onChangeSearchInput = (event) => {
@@ -62,14 +75,12 @@ const Content = () => {
 
                                           {products && products
                                               .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-                                              .map(item => <Card 
-                                              arrFavorite={favoriteProducts.map(item => item.id)}
-                                              arrCart={cartProducts.map(item => item.id)}
-                                              key={item.id} 
-                                              id={item.id} 
-                                              img={item.img} 
-                                              title={item.title} 
-                                              price={item.price} />)}
+                                              .map(product => <Card 
+                                              key={product.id} 
+                                              id={product.id} 
+                                              img={product.img} 
+                                              title={product.title} 
+                                              price={product.price} />)}
                  </div>
             </div>
          </main>

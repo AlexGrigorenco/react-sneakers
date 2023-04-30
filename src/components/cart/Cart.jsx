@@ -1,12 +1,12 @@
 
 
-
+import { useContext, useEffect } from 'react'
 import './style.css'
 import removeImg from './images/remove.svg'
 import arrow from './images/arrow.svg'
 import Card from './Card'
 import CartEmpty from './CartEmpty'
-import GetProducts from '../../hoocs/GetProducts'
+import { FirebaseContext } from '../../context/firebaseContext'
 
 
 
@@ -14,7 +14,14 @@ import GetProducts from '../../hoocs/GetProducts'
 
 const Cart = ({onClose}) => {   
 
-    const {cartProducts, cartEmpty, getCartProducts} = GetProducts()
+    const {cartProducts, cartEmpty, getCartProducts, totalCartPrice, calcTotalCartPrice} = useContext(FirebaseContext)
+
+    useEffect(()=> {
+        getCartProducts()
+        calcTotalCartPrice()
+        // eslint-disable-next-line
+    }, [])
+    
     return ( 
         <div 
         onClick={onClose}
@@ -41,7 +48,6 @@ const Cart = ({onClose}) => {
 
                          {cartProducts && cartProducts.map(item => 
                          <Card 
-                         getCartProducts={getCartProducts}
                          key={item.id} 
                          id={item.id} 
                          img={item.img} 
@@ -59,7 +65,7 @@ const Cart = ({onClose}) => {
                             Итого: 
                             </span>
                             <p className='text-[16px] pl-[8px] font-[600] bg-[#fff] translate-y-[4px] '>
-                            21 498 руб.
+                            {totalCartPrice.toLocaleString('ru-RU')} руб.
                             </p>
                         </div>
                         <div className='flex items-center justify-between border-bottom-dashed'>
@@ -67,7 +73,7 @@ const Cart = ({onClose}) => {
                             Налог 5%:
                             </span>
                             <p className='text-[16px] pl-[8px] font-[600] bg-[#fff] translate-y-[4px] '>
-                            1074 руб.
+                            {(totalCartPrice * 0.05).toLocaleString('ru-RU')} руб.
                             </p>
                         </div>
 

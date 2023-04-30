@@ -1,16 +1,20 @@
 
 
+import { useContext } from 'react';
 import axios from 'axios';
 import removeImg from './images/remove.svg'
+import { FirebaseContext } from '../../context/firebaseContext'
 
+const Card = ({img, title, price, id}) => {
 
-const Card = ({img, title, price, id, getCartProducts}) => {
+    const{getCartProducts, calcTotalCartPrice, getMainProducts} = useContext(FirebaseContext)
 
-    const removeCartProduct = () => {
+    async function removeCartProduct () {
         try{
-            axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id - 1}.json`).then(() => {
-            getCartProducts()
-        })
+            await axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart/${id - 1}.json`)
+            await getCartProducts()
+            await calcTotalCartPrice()
+            await getMainProducts()
         }catch{
             alert('Не удалось удалить, обновите страницу и попробуйте ещё раз!')
         }

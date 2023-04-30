@@ -2,19 +2,29 @@
 
 
 import { NavLink } from 'react-router-dom'
+import { FirebaseContext } from '../../context/firebaseContext'
 import cart from './images/cart.svg'
 import userIcon from './images/user-icon.svg'
 import logo from './images/logo.svg'
 import './style.css'
+import { useContext, useEffect } from 'react'
 
 
 const Header = ({openCart}) => {
+
+  const {totalCartPrice, calcTotalCartPrice} = useContext(FirebaseContext)
+
+  useEffect(() => {
+    calcTotalCartPrice()
+    // eslint-disable-next-line
+  }, [])
+
     return ( 
         <header className='py-[42px]'>
         <div className='container'>
         <div className='flex justify-between gap-[20px] flex-wrap '>
 
-        <NavLink to="/" className='left flex gap-[16px]'>
+        <NavLink to="/react-sneakers" className='left flex gap-[16px]'>
           <img className='max-w-[40px]' src={logo} alt="logo" />
           <div>
             <h3 className='font-[700] text-[20px]'>
@@ -33,7 +43,7 @@ const Header = ({openCart}) => {
           className='flex gap-[10px] cursor-pointer '>
               <img className='max-w-[18px]' src={cart} alt="cart" />            
               <span className='text-[#5C5C5C] hover:text-[#000]'>
-              1205 руб.
+              {totalCartPrice.toLocaleString('ru-RU')} руб.
               </span>
           </div>
 
