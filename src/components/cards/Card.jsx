@@ -12,7 +12,7 @@ import check from "./images/check.svg"
 
 const Card = ({img, title, price, id}) => {
 
-    const {getCartProducts, calcTotalCartPrice, postProduct, getFavoriteProducts, deleteProduct, checkAdded} = useContext(FirebaseContext)
+    const {getCartProducts, calcTotalCartPrice, postObjectInFirebase, getFavoriteProducts, deleteObjectInFirebase, checkAdded} = useContext(FirebaseContext)
 
 
     const obj = {id: id, img: img, title: title, price: price}
@@ -20,11 +20,11 @@ const Card = ({img, title, price, id}) => {
     const onClickPlus = async () => {
         try{
             if (!checkAdded('cart', id)) {
-                await postProduct('cart', obj, id)
+                await postObjectInFirebase('cart', obj, id)
                 await getCartProducts()
                 await calcTotalCartPrice()
             } else {
-                await deleteProduct('cart', id)
+                await deleteObjectInFirebase('cart', id)
                 await getCartProducts()
                 await calcTotalCartPrice()
             }
@@ -36,10 +36,10 @@ const Card = ({img, title, price, id}) => {
     const onFavorite = async () => {
         try{
             if(!checkAdded('favorites', id)) {
-                await postProduct('favorites', obj, id)
+                await postObjectInFirebase('favorites', obj, id)
                 await getFavoriteProducts()
             } else{
-                await deleteProduct('favorites', id)
+                await deleteObjectInFirebase('favorites', id)
                 await getFavoriteProducts()
             }
         }catch{

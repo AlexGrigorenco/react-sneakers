@@ -8,6 +8,7 @@ const mainURL = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedataba
 const productsURL = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/products';
 const cartURL = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/cart';
 const favoriteURL = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/favorites';
+const ordersURL = 'https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/orders';
 
 export const FirebaseState = ({children}) => {
 
@@ -38,8 +39,9 @@ export const FirebaseState = ({children}) => {
         const cartResponse = await axios.get(`${cartURL}/.json`)        
 
         const cartData = cartResponse.data && Object.values(cartResponse.data).filter(item => item !== null).map(item => item[Object.keys(item)[0]])
-        cartData && setCartProducts(cartData)
+        cartData ? setCartProducts(cartData) : setCartProducts([])
         !cartData && setCartEmpty(true)
+        cartData && setCartEmpty(false)
         return cartData
         }catch(error){
             console.log(error)
@@ -52,31 +54,47 @@ export const FirebaseState = ({children}) => {
 
         const favoriteData = favoriteResponse.data && Object.values(favoriteResponse.data).filter(item => item !== null).map(item => item[Object.keys(item)[0]])
         !favoriteData && setFavoriteEmpty(true)
+        favoriteData && setFavoriteEmpty(false)
         setFavoriteProducts(favoriteData || [])
         }catch(error){
             console.log(error)
+        }
+    }
+    async function getOrders(){
+        try{
+        const ordersResponse = await axios.get(`${ordersURL}/.json`)
+        return ordersResponse.data
+        }catch(error){
+            console.log('error while get orders', error.message)
         }
     }
 
     async function calcTotalCartPrice(){
         try{
             const cartData = await getCartProducts()
-            setTotalCartPrice(cartData.map(item => item.price).map(str => parseInt(str.replace(/\s/g, ''), 10)).reduce((acc, num) => acc + num, 0))
+            cartData ? setTotalCartPrice(cartData.map(item => item.price).map(str => parseInt(str.replace(/\s/g, ''), 10)).reduce((acc, num) => acc + num, 0)) : setTotalCartPrice(0)
         }catch(error){
             console.log(error)
         }
     }
 
 
-    function postProduct(path, obj, id){
+    function postObjectInFirebase(path, obj, id){
         try{
-            axios.post(`${mainURL}/${path}/${id - 1}.json`, JSON.stringify(obj))
+            path === 'orders' ? axios.post(`${mainURL}/${path}.json`, JSON.stringify(obj)) : axios.post(`${mainURL}/${path}/${id - 1}.json`, JSON.stringify(obj))
+        }catch{
+            alert('Обновите страницу и попробуйте ещё раз!')
+        }
+    }
+    function clearCart(){
+        try{
+            axios.delete(`${mainURL}/cart.json`)
         }catch{
             alert('Обновите страницу и попробуйте ещё раз!')
         }
     }
 
-    function deleteProduct(path, id){
+    function deleteObjectInFirebase(path, id){
         return axios.delete(`${mainURL}/${path}/${id - 1}.json`)
     }
 
@@ -90,7 +108,7 @@ export const FirebaseState = ({children}) => {
     
     return (
         <FirebaseContext.Provider value={{
-            products, setLoading, cartProducts, favoriteProducts, getMainProducts, getCartProducts, getFavoriteProducts, loading, cartEmpty, favoriteEmpty, totalCartPrice, calcTotalCartPrice, postProduct, deleteProduct, checkAdded
+            products, setLoading, cartProducts, setCartProducts, favoriteProducts, getMainProducts, getCartProducts, getFavoriteProducts, loading, cartEmpty, favoriteEmpty, totalCartPrice, calcTotalCartPrice, postObjectInFirebase, deleteObjectInFirebase, checkAdded, clearCart, setTotalCartPrice, getOrders
         }}>
             {children}
         </FirebaseContext.Provider>

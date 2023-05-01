@@ -1,12 +1,13 @@
 
 
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './style.css'
 import removeImg from './images/remove.svg'
 import arrow from './images/arrow.svg'
 import Card from './Card'
 import CartEmpty from './CartEmpty'
 import { FirebaseContext } from '../../context/firebaseContext'
+import OrderCreate from './OrderCreate'
 
 
 
@@ -14,7 +15,21 @@ import { FirebaseContext } from '../../context/firebaseContext'
 
 const Cart = ({onClose}) => {   
 
-    const {cartProducts, cartEmpty, getCartProducts, totalCartPrice, calcTotalCartPrice} = useContext(FirebaseContext)
+    const [orderCreated, setOrderCreated] = useState(false)
+    const {cartProducts, cartEmpty, getCartProducts, totalCartPrice, calcTotalCartPrice, postObjectInFirebase, clearCart, setCartProducts, setTotalCartPrice, getOrders} = useContext(FirebaseContext)
+
+    const createOrder = async () => {
+        try{
+            await postObjectInFirebase('orders', cartProducts)
+            await clearCart()
+            await setCartProducts([])
+            await setTotalCartPrice(0)
+            const orders = await getOrders()
+            orders && setOrderCreated(prev => !prev)
+        }catch(e){
+            console.log('Error while order created', e.message)
+        }
+    }
 
     useEffect(()=> {
         getCartProducts()
@@ -55,11 +70,12 @@ const Cart = ({onClose}) => {
                          price={item.price} 
                          />)}
 
-                        {cartEmpty && <CartEmpty onClose={onClose} />}
+                        {(cartEmpty && !orderCreated) && <CartEmpty onClose={onClose} />}
+                        {orderCreated && <OrderCreate onClose={onClose} />}
                          
                     </div>                   
 
-                    {!cartEmpty && <div className='flex flex-col gap-[20px]'>
+                    {(!cartEmpty && !orderCreated) && <div className='flex flex-col gap-[20px]'>
                         <div className='flex items-center justify-between border-bottom-dashed'>
                             <span className='text-[16px] bg-[#fff] pr-[8px] translate-y-[4px] '>
                             Итого: 
@@ -78,7 +94,7 @@ const Cart = ({onClose}) => {
                         </div>
 
                         <div className='pt-[10px] w-[100%]'>
-                        <button className='bg-[#9DD458] rounded-[18px] py-[18px] w-[100%] hover:bg-[#77a93a] relative '>
+                        <button onClick={() => createOrder()} className='bg-[#9DD458] rounded-[18px] py-[18px] w-[100%] hover:bg-[#77a93a] relative '>
                         <span className='font-[600] text-[#fff] '>Оформить заказ</span>
                         <img className='absolute right-[20px] top-[50%] translate-y-[-50%] ' src={arrow} alt="arrow" />
                         </button>
