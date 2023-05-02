@@ -17,7 +17,6 @@ const Order = ({orderKey, orderData, fetchOrders}) => {
             alert('Ошибка на моменте удаления ордера')
         }
     }
-    console.log(orderKey.substring(1))
     return ( 
         <div className="px-[15px] my-[20px] py-[20px] bg-[#f9f9f9]">
             <div className="py-[16px]">

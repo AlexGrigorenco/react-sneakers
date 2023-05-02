@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
+import { useRef } from 'react';
 import './App.css';
 import Header from './components/header/Header';
 import Home from './pages/content/Home'
@@ -13,6 +14,7 @@ import { FirebaseState } from './context/firebaseState';
 
 function App() {
 
+  const nodeRef = useRef(null)
   const [cartOpened, setCartOpened] = useState(false)
 
   return (
@@ -20,12 +22,13 @@ function App() {
         <div className='main-wrapper bg-[#fff] max-w-[1080px] rounded-[20px] mx-[auto] pb-[42px] overflow-hidden'>
 
            <Transition
+                nodeRef={nodeRef}
                 in={cartOpened}
-                timeout={500}
+                timeout={400}
                 mountOnEnter
                 unmountOnExit
                 >
-                      {state => <Cart state={state}
+                      {state => <Cart nodeRef={nodeRef} state={state}
                       onClose={() => setCartOpened(false)} />}
           </Transition>
 

@@ -5,16 +5,16 @@
 }
 
 .cart-wrapper.entering .cart{
-    animation: showCart .5s forwards;
+    animation: showCart .4s linear forwards;
 }
 .cart-wrapper.entering{
-    animation: fadeIn 1s forwards;
+    animation: fadeIn .4 linear forwards;
 }
 .cart-wrapper.exiting .cart{
-    animation: hideCart .5s forwards;
+    animation: hideCart .4s linear forwards;
 }
 .cart-wrapper.exiting{
-    animation: fadeOut 1s forwards;
+    animation: fadeOut .4s linear forwards;
 }
 
 @keyframes showCart {
@@ -33,7 +33,7 @@
 }
 @keyframes fadeIn {
     0%{
-        opacity: .7;
+        opacity: 0;
     }100%{
         opacity: 1;
     }

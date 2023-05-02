@@ -13,7 +13,7 @@ import OrderCreate from './OrderCreate'
 
 
 
-const Cart = ({onClose, state}) => {   
+const Cart = ({onClose, state, nodeRef}) => {   
 
     const [orderCreated, setOrderCreated] = useState(false)
     const {cartProducts, cartEmpty, getCartProducts, totalCartPrice, calcTotalCartPrice, postObjectInFirebase, clearCart, setCartProducts, setTotalCartPrice, getOrders} = useContext(FirebaseContext)
@@ -40,6 +40,7 @@ const Cart = ({onClose, state}) => {
     return ( 
         
             <div 
+            ref={nodeRef}
             onClick={onClose}
             className={`cart-wrapper ${state} fixed z-50 top-0 left-0 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh]`}>
                 <div 
