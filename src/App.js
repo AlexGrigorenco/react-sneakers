@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Transition } from 'react-transition-group';
 import './App.css';
 import Header from './components/header/Header';
 import Home from './pages/content/Home'
@@ -18,8 +19,15 @@ function App() {
     <FirebaseState>
         <div className='main-wrapper bg-[#fff] max-w-[1080px] rounded-[20px] mx-[auto] pb-[42px] overflow-hidden'>
 
-          {cartOpened && <Cart 
-          onClose={() => setCartOpened(false)} />}
+           <Transition
+                in={cartOpened}
+                timeout={500}
+                mountOnEnter
+                unmountOnExit
+                >
+                      {state => <Cart state={state}
+                      onClose={() => setCartOpened(false)} />}
+          </Transition>
 
           {cartOpened ? 
           document.querySelector('body').classList.add('overflow-hidden') :

@@ -1,8 +1,6 @@
 
 
-import { useContext } from "react";
 import Card from "./Card";
-import { FirebaseContext } from "../../context/firebaseContext";
 import axios from "axios";
 
 
