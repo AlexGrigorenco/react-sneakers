@@ -86,16 +86,15 @@ export const FirebaseState = ({children}) => {
             alert('Обновите страницу и попробуйте ещё раз!')
         }
     }
+    function deleteObjectInFirebase(path, id){
+        return axios.delete(`${mainURL}/${path}/${id - 1}.json`)
+    }
     function clearCart(){
         try{
             axios.delete(`${mainURL}/cart.json`)
         }catch{
             alert('Обновите страницу и попробуйте ещё раз!')
         }
-    }
-
-    function deleteObjectInFirebase(path, id){
-        return axios.delete(`${mainURL}/${path}/${id - 1}.json`)
     }
 
     function checkAdded (checked, id){

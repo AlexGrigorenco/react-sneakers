@@ -20,7 +20,7 @@ const Cart = ({onClose}) => {
 
     const createOrder = async () => {
         try{
-            await postObjectInFirebase('orders', cartProducts)
+            await postObjectInFirebase('orders', {products: cartProducts, date: new Date().toLocaleString()})
             await clearCart()
             await setCartProducts([])
             await setTotalCartPrice(0)

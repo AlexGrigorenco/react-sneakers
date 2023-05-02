@@ -12,3 +12,9 @@
     stroke: #FF8585;
     transition: 0.3s linear;
 }
+
+.orders.active {
+    transform: scale(1.1);
+    border-radius: 50%;
+    background: #ff858583;
+}

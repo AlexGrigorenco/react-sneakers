@@ -7,6 +7,7 @@ import Header from './components/header/Header';
 import Home from './pages/content/Home'
 import Cart from './components/cart/Cart';
 import Favorites from './pages/favorites/Favorites';
+import Orders from './pages/orders/Orders';
 import { FirebaseState } from './context/firebaseState';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Routes>
             <Route path='/react-sneakers' element={<Home />} />
             <Route path='/favorites' element={<Favorites />} />
+            <Route path='/orders' element={<Orders />} />
           </Routes>
         
         </div>
