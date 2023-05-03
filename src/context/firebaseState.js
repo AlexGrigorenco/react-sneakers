@@ -23,6 +23,9 @@ export const FirebaseState = ({children}) => {
 
     const [totalCartPrice, setTotalCartPrice] = useState(0)
 
+    const[ordersEmpty, setOrdersEmpty] = useState(true)
+    const [orders, setOrders] = useState({})
+
     async function getMainProducts(){
         try{
         const productsResponse = await axios.get(`${productsURL}.json`)        
@@ -60,12 +63,16 @@ export const FirebaseState = ({children}) => {
             console.log(error)
         }
     }
+
     async function getOrders(){
         try{
-        const ordersResponse = await axios.get(`${ordersURL}/.json`)
-        return ordersResponse.data
-        }catch(error){
-            console.log('error while get orders', error.message)
+            const ordersResponse = await axios.get(`${ordersURL}/.json`)
+            const ordersData = ordersResponse.data
+            setOrders(ordersData)
+            ordersData ? setOrdersEmpty(false) : setOrdersEmpty(true)
+            return ordersData
+        }catch{
+            alert('Error while get orders in Orders')
         }
     }
 
@@ -107,7 +114,7 @@ export const FirebaseState = ({children}) => {
     
     return (
         <FirebaseContext.Provider value={{
-            products, setLoading, cartProducts, setCartProducts, favoriteProducts, getMainProducts, getCartProducts, getFavoriteProducts, loading, cartEmpty, favoriteEmpty, totalCartPrice, calcTotalCartPrice, postObjectInFirebase, deleteObjectInFirebase, checkAdded, clearCart, setTotalCartPrice, getOrders
+            products, setLoading, cartProducts, setCartProducts, favoriteProducts, getMainProducts, getCartProducts, getFavoriteProducts, loading, cartEmpty, favoriteEmpty, totalCartPrice, calcTotalCartPrice, postObjectInFirebase, deleteObjectInFirebase, checkAdded, clearCart, setTotalCartPrice, getOrders, orders, ordersEmpty
         }}>
             {children}
         </FirebaseContext.Provider>

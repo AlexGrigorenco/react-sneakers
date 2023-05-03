@@ -5,14 +5,14 @@ import axios from "axios";
 
 
 
-const Order = ({orderKey, orderData, fetchOrders}) => {
+const Order = ({orderKey, orderData, getOrders}) => {
 
     const totalPrice = orderData.products.map(product => parseInt(product.price.replace(/\s/g, ''), 10)).reduce((acc, num) => acc + num, 0)
 
     async function deleteOrder(){
         try{
             await axios.delete(`https://sneakers-fa61e-default-rtdb.europe-west1.firebasedatabase.app/orders/${orderKey}.json`)
-            await fetchOrders()
+            await getOrders()
         }catch{
             alert('Ошибка на моменте удаления ордера')
         }
@@ -37,7 +37,7 @@ const Order = ({orderKey, orderData, fetchOrders}) => {
             price={product.price}
             />)}
             </div>
-            <div className="flex items-end gap-[20px] justify-between">
+            <div className="flex flex-wrap items-end gap-[20px] justify-between">
                 <div className="py-[10px]">
                     <div>
                         <span>Общая стоимость заказа: </span>

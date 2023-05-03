@@ -1,29 +1,17 @@
 
 import { NavLink } from "react-router-dom";
 import arrowBack from './images/arrowBack.svg'
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { FirebaseContext } from "../../context/firebaseContext";
 import OrdersEmpty from "./OrdersEmpty";
 import Order from "./Order";
 
 const Orders = () => {
 
-    const {getOrders} = useContext(FirebaseContext)
-    const[ordersEmpty, setOrdersEmpty] = useState(true)
-    const [orders, setOrders] = useState({})
-
-    async function fetchOrders(){
-        try{
-            const ordersData = await getOrders()
-            setOrders(ordersData)
-            ordersData ? setOrdersEmpty(false) : setOrdersEmpty(true)
-        }catch{
-            alert('Error while get orders in Orders')
-        }
-    }
+    const {getOrders, orders, ordersEmpty} = useContext(FirebaseContext)
 
     useEffect(() => {
-        fetchOrders()
+        getOrders()
         // eslint-disable-next-line
     }, [])
     return ( 
@@ -39,11 +27,11 @@ const Orders = () => {
                 </div>
             </div>
             {ordersEmpty && <OrdersEmpty />}
-            {orders && Object.keys(orders).map(orderKey => <Order 
+            {orders && Object.keys(orders).reverse().map(orderKey => <Order 
             key={orderKey}
             orderKey={orderKey}
             orderData={orders[orderKey]}
-            fetchOrders={fetchOrders} />)}
+            getOrders={getOrders} />)}
         </div>
      );
 }

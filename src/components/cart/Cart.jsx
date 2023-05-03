@@ -16,7 +16,7 @@ import OrderCreate from './OrderCreate'
 const Cart = ({onClose, state, nodeRef}) => {   
 
     const [orderCreated, setOrderCreated] = useState(false)
-    const {cartProducts, cartEmpty, getCartProducts, totalCartPrice, calcTotalCartPrice, postObjectInFirebase, clearCart, setCartProducts, setTotalCartPrice, getOrders} = useContext(FirebaseContext)
+    const {cartProducts, cartEmpty, getCartProducts, totalCartPrice, calcTotalCartPrice, postObjectInFirebase, clearCart, setCartProducts, setTotalCartPrice} = useContext(FirebaseContext)
 
     const createOrder = async () => {
         try{
@@ -24,8 +24,7 @@ const Cart = ({onClose, state, nodeRef}) => {
             await clearCart()
             await setCartProducts([])
             await setTotalCartPrice(0)
-            const orders = await getOrders()
-            orders && setOrderCreated(prev => !prev)
+            setOrderCreated(true)
         }catch(e){
             console.log('Error while order created', e.message)
         }
